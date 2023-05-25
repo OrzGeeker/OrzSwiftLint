@@ -4,6 +4,12 @@ The Unite Lint Configuration for all swift projects of OrzGeeker
 
 ## Usage
 
+### Xcode Target 
+
+- [xcode use swift package plugin](./images/xcode-plugin-usage.png)
+
+### Swift Package Package
+
 ```swift
     .target(
         name: "OrzSwiftLint",
