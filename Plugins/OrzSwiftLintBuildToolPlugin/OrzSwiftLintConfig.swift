@@ -32,8 +32,11 @@ struct OrzSwiftLintConfig {
     /// [SwiftLintRuleDirectory](https://realm.github.io/SwiftLint/rule-directory.html)
     private let configYamlFormatContent = """
 
-disabled_rules:
-  - identifier_name
+indentation_width:
+  indentation_width: 4
+  include_compiler_directives: false
+  include_comments: false
+  include_multiline_strings: false
 
 opt_in_rules:
   - indentation_width
@@ -44,12 +47,8 @@ trailing_whitespace:
 vertical_whitespace:
   max_empty_lines: 2
 
-indentation_width:
-  indentation_width: 4
-  include_compiler_directives: false
-
 line_length:
-  warning: 120
+  warning: 150
   error: 300
   ignores_urls: true
   ignores_function_declarations: true
@@ -67,7 +66,10 @@ identifier_name:
     - z
 
 type_name:
-    validates_start_with_lowercase: warning
+  validates_start_with_lowercase: warning
+
+file_length:
+  ignore_comment_only_lines: true
 
 """
 }
