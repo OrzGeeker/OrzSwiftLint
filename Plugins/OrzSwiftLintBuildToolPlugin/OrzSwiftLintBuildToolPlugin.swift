@@ -9,35 +9,64 @@ import PackagePlugin
 
 @main
 struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
-
-    func createBuildCommands(
-        context: PackagePlugin.PluginContext,
-        target: PackagePlugin.Target
-    ) async throws -> [PackagePlugin.Command] {
+    func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
 
         guard let target = target as? SourceModuleTarget
         else {
             return []
         }
 
-        let config = OrzSwiftLintConfig(context: context)
-        
+        return try buildCommands(
+            targetName: target.name,
+            targetDirectory: target.directory,
+            pluginWorkDirectory: context.pluginWorkDirectory,
+            tool: try context.tool(named: "swiftlint").path
+        )
+    }
+}
+
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
+extension OrzSwiftLintBuildToolPlugin: XcodeBuildToolPlugin {
+    func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        return try buildCommands(
+            targetName: target.displayName,
+            targetDirectory: context.xcodeProject.directory,
+            pluginWorkDirectory: context.pluginWorkDirectory,
+            tool: try context.tool(named: "swiftlint").path
+        )
+    }
+}
+
+#endif
+extension OrzSwiftLintBuildToolPlugin {
+    func buildCommands(
+        targetName: String,
+        targetDirectory: Path,
+        pluginWorkDirectory: Path,
+        tool: Path
+    ) throws -> [PackagePlugin.Command] {
+
+        let config = OrzSwiftLintConfig(pluginWorkDirectory: pluginWorkDirectory)
+
         try config.writeToPluginWorkDirectory()
 
-        var args: [CustomStringConvertible] = [
+        let args: [CustomStringConvertible] = [
             "lint",
             "--no-cache",
             "--config",
             config.filePath,
-            target.directory
+            targetDirectory
         ]
 
         return [
             .buildCommand(
-                displayName: "Lint Target: \(target.name)",
-                executable: try context.tool(named: "swiftlint").path,
+                displayName: "Lint Target: \(targetName)",
+                executable: tool,
                 arguments: args
             )
         ]
     }
 }
+
+

@@ -12,9 +12,7 @@ import PackagePlugin
 
 struct OrzSwiftLintConfig {
 
-    init(context: PackagePlugin.PluginContext) {
-        self.context = context
-    }
+    let pluginWorkDirectory: Path
 
     func writeToPluginWorkDirectory() throws {
         try configYamlFormatContent.write(
@@ -24,13 +22,10 @@ struct OrzSwiftLintConfig {
     }
 
     var filePath: PackagePlugin.Path {
-        context.pluginWorkDirectory.appending(subpath: configName)
+        pluginWorkDirectory.appending(subpath: configName)
     }
     
     private let configName = "OrzSwiftLintConfig.yml"
-
-    private let context: PackagePlugin.PluginContext
-
 
     /// Reference
     /// [raywenderlich rules](https://github.com/kodecocodes/swift-style-guide/blob/main/com.raywenderlich.swiftlint.yml)
