@@ -12,7 +12,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .plugin(
             name: "OrzSwiftLintBuildToolPlugin",
-            targets: ["OrzSwiftLintBuildToolPlugin"])
+            targets: ["OrzSwiftLintBuildToolPlugin"]
+        ),
+        .plugin(
+            name: "OrzSwiftLintCommandPlugin",
+            targets: ["OrzSwiftLintCommandPlugin"]
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint.git", from: "0.52.2")
@@ -30,17 +35,17 @@ let package = Package(
             name: "OrzSwiftLintBuildToolPlugin",
             capability: .buildTool(),
             dependencies: [
-                .product(name: "swiftlint", package: "SwiftLint")
+                .product(name: "swiftlint", package: "SwiftLint"),
             ]
         ),
         .plugin(
             name: "OrzSwiftLintCommandPlugin",
             capability: .command(
                 intent: .custom(
-                    verb: "format swift code",
+                    verb: "swiftlint fix",
                     description: "format swift code with swiftlint"),
                 permissions: [
-                    .writeToPackageDirectory(reason: "write swiftlint.yml rules")
+                    .writeToPackageDirectory(reason: "format swift source file with swiftlint")
                 ]
             )
         )
