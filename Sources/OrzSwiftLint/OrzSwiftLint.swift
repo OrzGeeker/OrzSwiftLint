@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 
 struct OrzSwiftLint {
-    func test() {
+    static func testRule() {
         print("test called!")
     }
 }

@@ -19,16 +19,18 @@ struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
         else {
             return []
         }
-
-        print(target.moduleName)
-        return try target.sourceFiles(withSuffix: ".swift").map { sourceFile in
-            return .buildCommand(
-                displayName: "format file: \(sourceFile)",
+        return [
+            .buildCommand(
+                displayName: "Lint Target: \(target.name)",
                 executable: try context.tool(named: "swiftlint").path,
-                arguments: [],
-                inputFiles: [sourceFile.path],
-                outputFiles: [sourceFile.path]
+                arguments: ["lint", "--no-cache", target.directory]
             )
-        }
+        ]
+    }
+}
+
+extension String {
+    func log() {
+        print("[Build Tool]: \(self)")
     }
 }

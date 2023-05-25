@@ -10,9 +10,6 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "OrzSwiftLint",
-            targets: ["OrzSwiftLint"]),
         .plugin(
             name: "OrzSwiftLintBuildToolPlugin",
             targets: ["OrzSwiftLintBuildToolPlugin"]),
@@ -21,7 +18,7 @@ let package = Package(
             targets: ["OrzSwiftLintCommandPlugin"])
     ],
     dependencies: [
-//        .package(url: "https://github.com/realm/SwiftLint.git", from: "0.52.2"),
+        .package(url: "https://github.com/realm/SwiftLint.git", from: "0.52.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,13 +26,11 @@ let package = Package(
         .target(
             name: "OrzSwiftLint"
         ),
-        .testTarget(
-            name: "OrzSwiftLintTests",
-            dependencies: ["OrzSwiftLint"]),
         .plugin(
             name: "OrzSwiftLintBuildToolPlugin",
             capability: .buildTool(),
             dependencies: [
+                .product(name: "swiftlint", package: "SwiftLint")
             ]
         ),
         .plugin(

@@ -10,7 +10,5 @@ import PackagePlugin
 @main
 struct OrzSwiftLintCommandPlugin: CommandPlugin {
     func performCommand(context: PackagePlugin.PluginContext, arguments: [String]) async throws {
-        print("command plugin:\(context.pluginWorkDirectory)")
-        print("\(arguments)")
     }
 }
