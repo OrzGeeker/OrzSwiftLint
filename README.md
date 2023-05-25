@@ -12,7 +12,7 @@ The Unite Lint Configuration for all swift projects of OrzGeeker
 
 ```swift
     .target(
-        name: "OrzSwiftLint",
+        name: "<You Swift Package Name>",
         plugins: [
             .plugin(name: "OrzSwiftLintBuildToolPlugin", package: "OrzSwiftLint")
         ]
