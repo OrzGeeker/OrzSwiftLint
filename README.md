@@ -14,7 +14,7 @@ The Unite Lint Configuration for all swift projects of OrzGeeker
     .target(
         name: "OrzSwiftLint",
         plugins: [
-            "OrzSwiftLintBuildToolPlugin"
+            .plugin(name: "OrzSwiftLintBuildToolPlugin", package: "OrzSwiftLint")
         ]
     )
 ```

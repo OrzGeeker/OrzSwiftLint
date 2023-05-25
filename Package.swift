@@ -13,10 +13,6 @@ let package = Package(
         .plugin(
             name: "OrzSwiftLintBuildToolPlugin",
             targets: ["OrzSwiftLintBuildToolPlugin"]
-        ),
-        .plugin(
-            name: "OrzSwiftLintCommandPlugin",
-            targets: ["OrzSwiftLintCommandPlugin"]
         )
     ],
     dependencies: [
@@ -28,7 +24,7 @@ let package = Package(
         .target(
             name: "OrzSwiftLint",
             plugins: [
-                "OrzSwiftLintBuildToolPlugin"
+                .plugin(name: "OrzSwiftLintBuildToolPlugin")
             ]
         ),
         .plugin(
