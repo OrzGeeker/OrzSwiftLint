@@ -1,25 +1,28 @@
 //
 //  OrzSwiftLintBuildToolPlugin.swift
-//  
+//
 //
 //  Created by joker on 2023/5/23.
 //
 
+import Foundation
 import PackagePlugin
 
 @main
 struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
-
+        
         guard let target = target as? SourceModuleTarget
         else {
             return []
         }
-
+        
+        let pluginWorkDirectory = Path(NSTemporaryDirectory())
+        
         return try buildCommands(
             targetName: target.name,
             targetDirectory: target.directory,
-            pluginWorkDirectory: context.pluginWorkDirectory,
+            pluginWorkDirectory: pluginWorkDirectory,
             tool: try context.tool(named: "swiftlint").path
         )
     }
@@ -46,11 +49,11 @@ extension OrzSwiftLintBuildToolPlugin {
         pluginWorkDirectory: Path,
         tool: Path
     ) throws -> [PackagePlugin.Command] {
-
+        
         let config = OrzSwiftLintConfig(pluginWorkDirectory: pluginWorkDirectory)
-
+        
         try config.writeToPluginWorkDirectory()
-
+        
         let args: [CustomStringConvertible] = [
             "lint",
             "--no-cache",
@@ -58,7 +61,7 @@ extension OrzSwiftLintBuildToolPlugin {
             config.filePath,
             targetDirectory
         ]
-
+        
         return [
             .buildCommand(
                 displayName: "Lint Target: \(targetName)",
