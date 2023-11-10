@@ -17,32 +17,17 @@ struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
             return []
         }
         
-        let pluginWorkDirectory = Path(NSTemporaryDirectory())
-        
         return try buildCommands(
             targetName: target.name,
             targetDirectory: target.directory,
-            pluginWorkDirectory: pluginWorkDirectory,
-            tool: try context.tool(named: "swiftlint").path
-        )
-    }
-}
-
-#if canImport(XcodeProjectPlugin)
-import XcodeProjectPlugin
-extension OrzSwiftLintBuildToolPlugin: XcodeBuildToolPlugin {
-    func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-        return try buildCommands(
-            targetName: target.displayName,
-            targetDirectory: context.xcodeProject.directory,
             pluginWorkDirectory: context.pluginWorkDirectory,
             tool: try context.tool(named: "swiftlint").path
         )
     }
 }
 
-#endif
 extension OrzSwiftLintBuildToolPlugin {
+    
     func buildCommands(
         targetName: String,
         targetDirectory: Path,
@@ -72,4 +57,20 @@ extension OrzSwiftLintBuildToolPlugin {
     }
 }
 
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
+extension OrzSwiftLintBuildToolPlugin: XcodeBuildToolPlugin {
+    func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        
+        let pluginWorkDirectory = Path(NSTemporaryDirectory())
+        
+        return try buildCommands(
+            targetName: target.displayName,
+            targetDirectory: context.xcodeProject.directory,
+            pluginWorkDirectory: pluginWorkDirectory,
+            tool: try context.tool(named: "swiftlint").path
+        )
+    }
+}
 
+#endif
