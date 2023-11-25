@@ -71,5 +71,9 @@ type_name:
 file_length:
   ignore_comment_only_lines: true
 
+
+function_parameter_count:
+  warning: 6
+
 """
 }
