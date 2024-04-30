@@ -64,6 +64,8 @@ identifier_name:
     - x
     - y
     - z
+    - os
+    - ps
 
 type_name:
   validates_start_with_lowercase: warning
