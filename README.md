@@ -1,6 +1,6 @@
 # OrzSwiftLint
 
-The Unite Lint Configuration for all swift projects of OrzGeeker
+Perform unified lint checking for all swift projects in OrzGeeker
 
 ## Usage
 
