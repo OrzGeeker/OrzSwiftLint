@@ -1,6 +1,6 @@
 //
 //  OrzSwiftLintConfig.swift
-//  
+//
 //
 //  Created by joker on 2023/5/25.
 //
@@ -13,22 +13,22 @@ import Foundation
 import PackagePlugin
 
 struct OrzSwiftLintConfig {
-
-    let pluginWorkDirectory: Path
-
+    
+    let pluginWorkDirectoryURL: URL
+    
     func writeToPluginWorkDirectory() throws {
         try configYamlFormatContent.write(
-            toFile: filePath.string,
+            to: fileURL,
             atomically: true,
             encoding: .utf8)
     }
-
-    var filePath: PackagePlugin.Path {
-        pluginWorkDirectory.appending(subpath: configName)
+    
+    var fileURL: URL {
+        pluginWorkDirectoryURL.appending(path: configName)
     }
     
     private let configName = "OrzSwiftLintConfig.yml"
-
+    
     /// [SwiftLintRuleDirectory](https://realm.github.io/SwiftLint/rule-directory.html)
     private let configYamlFormatContent = """
 
