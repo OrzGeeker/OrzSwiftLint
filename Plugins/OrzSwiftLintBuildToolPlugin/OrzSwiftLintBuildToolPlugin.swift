@@ -48,10 +48,7 @@ extension OrzSwiftLintBuildToolPlugin {
 import XcodeProjectPlugin
 extension OrzSwiftLintBuildToolPlugin: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-        guard let pluginWorkDirectoryURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
-        else {
-            return []
-        }
+        let pluginWorkDirectoryURL = URL(filePath: NSTemporaryDirectory())
         return try buildCommands(
             targetName: target.displayName,
             targetDirectoryURL: context.xcodeProject.directoryURL,
