@@ -11,6 +11,12 @@ import PackagePlugin
 @main
 struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: any Target) async throws -> [Command] {
+        #if os(Windows)
+        // SwiftLint 的 artifactbundle 没有 Windows 产物（SwiftPM 会直接报
+        // "Tool 'swiftlint' is not supported on the target platform"），
+        // 且插件失败会让整个构建中止。Windows 上直接跳过 lint（D14 Phase 6.5）。
+        return []
+        #else
         guard let swiftTarget = target as? SwiftSourceModuleTarget
         else {
             return []
@@ -21,6 +27,7 @@ struct OrzSwiftLintBuildToolPlugin: BuildToolPlugin {
             pluginWorkDirectoryURL: context.pluginWorkDirectoryURL,
             toolURL: try context.tool(named: "swiftlint").url
         )
+        #endif
     }
 }
 
